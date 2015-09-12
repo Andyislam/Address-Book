@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Contacts</h1>
+
+<%= link_to 'Create New Contact', new_contact_path %>
+
+<div class='contact_list_div'>
+  <ul>
+    <li>
+      <div class='contact_object header_row'>
+        <p class='contact_headers' >Name</p>
+        <p class='contact_headers'>Number of detail items</p>
+        <p class='contact_headers'>Last Updated</p>
+        <p class='contact_headers'>Synced to Google</p>
+        <p class='contact_headers'>Actions</p>
+      </div>
+    </li>
+    <% @contacts.each do |contact| %>
+      <li>
+        <div class='contact_object'>
+          <p><%= contact.name %></p>
+          <p><%= contact.contact_details.size %></p>
+          <p><%=contact.updated_at %></p>
+          <p><%=contact.google_synced %></p>
+          <p><%= link_to 'Show', contact %> / <%= link_to 'Edit', edit_contact_path(contact) %> / <%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+

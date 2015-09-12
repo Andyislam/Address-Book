@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Addressbook</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<% if notice %>
+	  <p class="alert alert-success"><%= notice %></p>
+	<% end %>
+	<% if alert %>
+	  <p class="alert alert-danger"><%= alert %></p>
+	<% end %>
+
+
+<% if user_signed_in? %>
+	<% if current_user.provider == 'google_oauth2' %>
+		Signed in as <%= current_user.name %>. Not you?
+	<% else %>
+		Signed in as <%= current_user.email %>. Not you?
+	<% end %>
+	<%= link_to "Sign out", destroy_user_session_path,:method => :delete %>
+<% end %>
+
+<%= yield %>
+
+</body>
+</html>

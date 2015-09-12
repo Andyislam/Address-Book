@@ -1,0 +1,15 @@
+<style>
+	body {
+		text-align: center;
+		margin-top: 125px;
+	}
+</style>
+<h1>Welcome Back <%= current_user.name %>!</h1>
+
+<div id="welcome_div">
+
+	You have <%= @current_contacts.size %> in your address book. Click <a href='/contacts'>here</a> to view / edit your contacts. 
+
+</div>
+
+

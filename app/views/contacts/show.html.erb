@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<%= link_to 'Edit', edit_contact_path(@contact) %> |
+<%= link_to 'Back', contacts_path %>
+
+<div class ='contact_card'>
+	<h1><%= @contact.name %> / </h1>
+	<h1>Last Updated: <%= @contact.updated_at %> / </h1>
+	<h1>Synced to Google: <%= @contact.google_synced %></h1>
+	<ul>
+		<li>
+			<div class='contact_detail'>
+				<p class='detail_header'>Communication Type</p>
+				<p class='detail_header'>Detail Type</p>
+				<p class='detail_header'>Detail</p>
+			</div>
+		</li>
+		<% @contact.contact_details.each do |detail| %>
+		<li>
+			<div class='contact_detail'>
+				<p><%= detail.detail_method %></p>
+				<p><%= detail.detail_type %></p>
+				<p><%= detail.detail %></p>
+			</div>
+		</li>
+		<% end %>
+		
+	</ul>
+</div>
+
+
+
+
+
+
+
+
+
+

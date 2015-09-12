@@ -1,0 +1,122 @@
+<div class='contact_card'>
+<div class="edit_div">
+    <form id="edit_form">
+      <input type='hidden' id='record'
+        <% if @contact.new_record? %>
+          value='new'
+        <% else %>
+          value='<%=@contact.id%>'
+        <% end %>
+      />
+      <h3> Contact Details </h3>
+      <label for='name' class="contact_label">Contact Name</label>
+      <input class='textboxes' type='text' name='name' id='name' value='<%= @contact.name %>' placeholder='name'/>
+      <br>
+      <br>
+      <input type='checkbox' name='exclude_from_sync' id='exclude_from_sync'
+        <% if @contact.exclude_from_sync == true %>
+          checked
+        <% end %>
+      > Do not Sync with Google. (prevents contact detail override if contact and contact detail exists on Google.) </input>
+
+      <h3> Contact Details </h3>
+      <div>
+        <p id='add_detail'>Add New Detail Item</p>
+        <ul id='detail_ul'>
+          <% @contact.contact_details.each do |detail| %>
+            <li id='<%= detail.id%>_li'>
+              <select id='<%= detail.id %>_detail_method' name='<%= detail.id %>_detail_method'>
+                <option value='Email' <% if detail.detail_method == 'Email'%>selected <%end %>>Email</option>
+                <option value='Phone' <% if detail.detail_method == 'Phone'%>selected <%end %>>Phone</option>
+              </select>
+              <select id='<%= detail.id %>_detail_type' name='<%= detail.id %>_detail_type'>
+                <option value='home' <% if detail.detail_type == 'home'%>selected <%end %>>home</option>
+                <option value='work' <% if detail.detail_type == 'work'%>selected <%end %>>work</option>
+                <option value='other' <% if detail.detail_type == 'other'%>selected <%end %>>other</option>
+              </select>
+              <input class='textboxes' type='text' name='<%= detail.id %>_detail' id='<%= detail.id %>_detail' value='<%= detail.detail %>'/>
+              <p onclick='javascript:remove_li("<%= detail.id%>")'>X</p>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+
+
+      <button type='submit' id='Submit_btn' class='buttons'>Submit</submit>
+    </form>
+    
+  </div>
+</div>
+
+
+<script>
+  $("#add_detail").click(function(){
+    var count = $("#detail_ul li").length;
+    count = count + 1
+    $("#detail_ul").append("<li id='"+count+"_li'><select name='new_"+count+"_detail_method' id='new_"+count+"_detail_method'><option value='Email'>Email</option><option value='Phone'>Phone</option></select><select name='new_"+count+"_detail_type' id='new_"+count+"_detail_type'><option value='home'>home</option><option value='work'>work</option><option value='other'>other</option></select><input class='textboxes' type='text' name='new_"+count+"_detail' id='new_"+count+"_detail'/><p onclick='javascript:remove_li("+count+")'>X</p></li>")
+  })
+
+  function remove_li(id){
+    $("#"+id+'_li').remove();
+  }
+
+
+  function check_fields(){
+
+  }
+
+  $( "#Submit_btn" ).click(function(e) {
+    e.preventDefault();
+    var formData = new FormData;
+
+    formData.append('record', $("#record").val())
+    formData.append('name', $("#name").val())
+    formData.append('exclude_from_sync', $("#exclude_from_sync").prop('checked'))
+
+  
+    var detail_array = []
+
+    $('#detail_ul li').each(function(i)
+    {
+       var detail = ''
+       var li_id = ($(this).attr('id'))
+       id_string = $("#"+li_id).find('select:first').attr('id').split('_')
+       if (id_string[0] == 'new'){
+          detail = "id:new_"+id_string[1]+"/detail_method:"+ $('#new_'+id_string[1]+'_detail_method').val() +"/detail_type:"+ $('#new_'+id_string[1]+'_detail_type').val() +"/detail:"+ $('#new_'+id_string[1]+'_detail').val() +" "
+       } else {
+          detail = "id:"+id_string[0]+"/detail_method:"+ $('#'+id_string[0]+'_detail_method').val() +"/detail_type:"+ $('#'+id_string[0]+'_detail_type').val() +"/detail:"+ $('#'+id_string[0]+'_detail').val() +" "
+       }
+       detail_array.push(detail)
+      
+
+    });
+
+    formData.append('detail_array', detail_array)
+
+    $.ajax({
+      type:'POST', 
+      url: '/update_contact', 
+      data:  formData,
+      mimeType:"multipart/form-data",
+      contentType: false,
+      cache: true,
+      processData:false,
+      dataType: "text",
+      success: function(data){
+        var data = jQuery.parseJSON(data);
+      
+    },
+      error: function(data){
+        
+   
+      }
+    });
+
+
+  })
+
+
+
+
+</script>
