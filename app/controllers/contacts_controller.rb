@@ -102,7 +102,7 @@ class ContactsController < ApplicationController
     end
 
     if err.length > 0
-      puts "ERRORS PRESENT"
+      render :json => {:error => true, :errors => err}
     else
       if params[:record] == "new"
         @contact = Contact.new
@@ -130,6 +130,11 @@ class ContactsController < ApplicationController
       end
 
       ContactDetail.where("id NOT IN (?) AND contact_id == ?", saved_ids, @contact.id).destroy_all
+
+
+
+  
+      render :json => {:success => true, :id => @contact.id}
 
 
       # @deleted = ContactDetail.where.not(id: @saved_ids, contact_id: @contact.id)

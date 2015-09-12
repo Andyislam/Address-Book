@@ -105,11 +105,21 @@
       dataType: "text",
       success: function(data){
         var data = jQuery.parseJSON(data);
+        if (data['error'] == true){
+          $.each( data['errors'] , function( key, val ){
+            alert(val['error'])
+          })
+        } else {
+          alert("Saved Successfully!")
+          window.location.href="/contacts/"+data['id']+"/edit"
+        }
+        
+    
       
     },
       error: function(data){
-        
-   
+        alert("There was an issue sending the form to the server. Please try again at a later time")
+    
       }
     });
 
