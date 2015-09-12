@@ -29,7 +29,7 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2' 
 gem 'google-api-client'
 gem 'json'
-
+gem 'capistrano'
 
 
 # Use ActiveModel has_secure_password
