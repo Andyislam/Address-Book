@@ -1,28 +1,8 @@
 == README
+* Ruby version : ruby-1.9.3
+* sqlite3 db
+* To run on cloud or remote server, create your Google API an update the following line with your API key and secret in devise.rb. 
+    config.omniauth :google_oauth2, "<YOUR API KEY>", "<YOUR API SECRET>", { access_type: "offline", scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar https://www.google.com/m8/feeds",approval_prompt: "" }
+* deploy script found in deploy.rb
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Thank you for downloading this demo!
